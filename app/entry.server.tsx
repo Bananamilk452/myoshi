@@ -11,6 +11,8 @@ import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
+import { renderHeadToString } from "remix-island";
+import { Head } from "./root";
 
 const ABORT_DELAY = 5_000;
 
@@ -56,6 +58,7 @@ function handleBotRequest(
       {
         onAllReady() {
           shellRendered = true;
+          const head = renderHeadToString({ request, remixContext, Head });
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
@@ -68,7 +71,11 @@ function handleBotRequest(
             }),
           );
 
+          body.write(
+            `<!DOCTYPE html><html lang="ko"><head>${head}</head><body><div id="root">`,
+          );
           pipe(body);
+          body.write(`</div></body></html>`);
         },
         onShellError(error: unknown) {
           reject(error);
@@ -106,6 +113,7 @@ function handleBrowserRequest(
       {
         onShellReady() {
           shellRendered = true;
+          const head = renderHeadToString({ request, remixContext, Head });
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
 
@@ -118,7 +126,11 @@ function handleBrowserRequest(
             }),
           );
 
+          body.write(
+            `<!DOCTYPE html><html lang="ko"><head>${head}</head><body><div id="root">`,
+          );
           pipe(body);
+          body.write(`</div></body></html>`);
         },
         onShellError(error: unknown) {
           reject(error);
