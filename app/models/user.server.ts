@@ -1,4 +1,4 @@
-import type { Password, User } from "@prisma/client";
+import type { User } from "@prisma/client";
 import argon2 from "@node-rs/argon2";
 import { prisma } from "~/.server/db";
 
@@ -16,10 +16,7 @@ export async function getUserByEmail(email: User["email"]) {
   });
 }
 
-export async function verifyLogin(
-  email: User["email"],
-  password: string,
-) {
+export async function verifyLogin(email: User["email"], password: string) {
   const userWithPassword = await prisma.user.findUnique({
     where: { email },
     include: { password: true },
