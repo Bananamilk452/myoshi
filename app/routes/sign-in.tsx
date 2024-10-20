@@ -6,12 +6,13 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
-import { formatZodError } from "~/lib/utils";
 
-const schema = zfd.formData({
+const s = {
   email: z.string().email(),
   password: z.string().min(8),
-});
+};
+
+const schema = zfd.formData(s);
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await getUserId(request);
@@ -21,8 +22,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export async function action({ request }: LoaderFunctionArgs) {
   const data = schema.safeParse(await request.formData());
+
   if (!data.success) {
-    const errors = formatZodError<z.infer<typeof schema>>(data.error);
+    const errors = data.error.flatten().fieldErrors as {
+      [key in keyof typeof s]: string[];
+    };
 
     return json({ errors }, { status: 400 });
   }

@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
-import type { ZodError } from "zod";
 
 import type { User } from "~/models/user.server";
 
@@ -76,19 +75,4 @@ export function useUser(): User {
     );
   }
   return maybeUser;
-}
-
-type ErrorMessages<T> = {
-  [K in keyof T]?: string;
-};
-
-export function formatZodError<T>(error: ZodError): ErrorMessages<T> {
-  const formattedErrors: ErrorMessages<T> = {};
-
-  error.errors.forEach((err) => {
-    const key = err.path.join(".") as keyof T;
-    formattedErrors[key] = err.message;
-  });
-
-  return formattedErrors;
 }
