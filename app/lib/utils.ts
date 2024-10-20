@@ -54,6 +54,7 @@ function isUser(user: unknown): user is User {
   return (
     user != null &&
     typeof user === "object" &&
+    Object.prototype.hasOwnProperty.call(user, "email") &&
     "email" in user &&
     typeof user.email === "string"
   );
