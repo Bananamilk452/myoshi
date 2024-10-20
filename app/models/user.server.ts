@@ -29,7 +29,7 @@ export async function verifyLogin(
     return null;
   }
 
-  const isValid = await argon2.verify(password, userWithPassword.password.hash);
+  const isValid = await argon2.verify(userWithPassword.password.hash, password);
 
   if (!isValid) {
     return null;
