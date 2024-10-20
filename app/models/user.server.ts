@@ -18,7 +18,7 @@ export async function getUserByEmail(email: User["email"]) {
 
 export async function verifyLogin(
   email: User["email"],
-  password: Password["hash"],
+  password: string,
 ) {
   const userWithPassword = await prisma.user.findUnique({
     where: { email },
