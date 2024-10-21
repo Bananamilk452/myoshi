@@ -29,6 +29,10 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css",
   },
+  {
+    rel: "stylesheet",
+    href: "https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css",
+  },
 ];
 
 export const Head = createHead(() => (
