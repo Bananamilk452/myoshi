@@ -1,7 +1,8 @@
 // import type { MetaFunction } from "@remix-run/node";
 
 import { Form, useNavigate } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
+import { MainLogo } from "~/components/MainLogo";
+import { Button } from "~/components/ui/Button";
 import { useOptionalUser } from "~/lib/utils";
 
 // export const meta: MetaFunction = () => {
@@ -16,7 +17,8 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="min-h-screen px-[30%]">
+    <main className="mx-[30%] flex min-h-screen flex-col items-center justify-center gap-4 border">
+      <MainLogo />
       <p>{JSON.stringify(user, null, 2)}</p>
       {user ? (
         <Form action="/sign-out" method="post">

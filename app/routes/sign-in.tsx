@@ -2,8 +2,8 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, redirect, useActionData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/Button";
+import { Input } from "~/components/ui/Input";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 
