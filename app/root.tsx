@@ -14,6 +14,8 @@ import type {
 import { createHead } from "remix-island";
 
 import { getUser } from "./session.server";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/Sidebar";
+import { AppSidebar } from "./components/AppSidebar";
 import "./tailwind.css";
 
 export const meta: MetaFunction = () => {
@@ -46,7 +48,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Head />
-      {children}
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="min-h-screen w-full max-w-[1024px] border">
+          {/* <SidebarTrigger /> */}
+          {children}
+        </main>
+      </SidebarProvider>
       <ScrollRestoration />
       <Scripts />
     </>

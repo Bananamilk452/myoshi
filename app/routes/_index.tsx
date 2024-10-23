@@ -17,7 +17,7 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <main className="mx-[30%] flex min-h-screen flex-col items-center justify-center gap-4 border">
+    <section>
       <MainLogo />
       <p>{JSON.stringify(user, null, 2)}</p>
       {user ? (
@@ -27,6 +27,6 @@ export default function Index() {
       ) : (
         <Button onClick={() => navigate("/sign-in")}>로그인</Button>
       )}
-    </main>
+    </section>
   );
 }
