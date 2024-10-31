@@ -14,13 +14,15 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid(7))
-  email      String     @unique
+  id         String      @id @default(uuid(7))
+  username   String?    
+  email      String      @unique
   password   Password?
+  avatar     Avatar?
   characters Character[]
   chats      Chat[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Password {
@@ -29,29 +31,35 @@ model Password {
   user   User   @relation(fields: [userId], references: [id])
 }
 
+model Avatar {
+  userId String @id @unique
+  user   User   @relation(fields: [userId], references: [id])
+  url    String
+}
+
 model Character {
-  id               String           @id @default(uuid(7))
-  userId           String
-  user             User             @relation(fields: [userId], references: [id])
-  nickname         String
-  name             String
-  chats            Chat[]
+  id                  String           @id @default(uuid(7))
+  userId              String
+  user                User             @relation(fields: [userId], references: [id])
+  nickname            String
+  name                String
+  chats               Chat[]
   systemPromptVersion String
-  systemPrompt     SystemPrompt     @relation(fields: [systemPromptVersion], references: [version])
-  characterPrompt  CharacterPrompt?
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  systemPrompt        SystemPrompt     @relation(fields: [systemPromptVersion], references: [version])
+  characterPrompt     CharacterPrompt?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
 }
 
 model SystemPrompt {
-  version       String      @id
-  prompt        String
-  description   String
-  characters    Character[]
+  version     String      @id
+  prompt      String
+  description String
+  characters  Character[]
 }
 
 model UserPrompt {
-  version          String           @id
+  version          String            @id
   prompt           String
   description      String
   variables        Json
@@ -59,12 +67,12 @@ model UserPrompt {
 }
 
 model CharacterPrompt {
-  id            String     @id @default(uuid(7))
-  character     Character  @relation(fields: [characterId], references: [id])
-  characterId   String     @unique
+  id                String     @id @default(uuid(7))
+  character         Character  @relation(fields: [characterId], references: [id])
+  characterId       String     @unique
   userPromptVersion String
-  userPrompt    UserPrompt @relation(fields: [userPromptVersion], references: [version])
-  variables     Json?
+  userPrompt        UserPrompt @relation(fields: [userPromptVersion], references: [version])
+  variables         Json?
 }
 
 model Chat {

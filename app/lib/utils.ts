@@ -2,8 +2,9 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useMatches } from "@remix-run/react";
 import { useMemo } from "react";
+import { z } from "zod";
 
-import type { User } from "~/models/user.server";
+import type { UserWithAvatar } from "~/models/user.server";
 
 const DEFAULT_REDIRECT = "/";
 
@@ -50,17 +51,31 @@ export function useMatchesData(
   return route?.data as Record<string, unknown>;
 }
 
-function isUser(user: unknown): user is User {
-  return (
-    user != null &&
-    typeof user === "object" &&
-    Object.prototype.hasOwnProperty.call(user, "email") &&
-    "email" in user &&
-    typeof user.email === "string"
-  );
+const userSchema = z.object({
+  email: z.string(),
+  username: z.string().nullable(),
+  avatar: z
+    .object({
+      url: z.string(),
+    })
+    .nullable(),
+});
+
+function isUser(user: unknown): user is UserWithAvatar {
+  /*
+    User: {
+      email: string,
+      username: string | null,
+      avatar: {
+        url: string,
+      } | null,
+    }
+  */
+
+  return userSchema.safeParse(user).success;
 }
 
-export function useOptionalUser(): User | undefined {
+export function useOptionalUser(): UserWithAvatar | undefined {
   const data = useMatchesData("root");
   if (!data || !isUser(data.user)) {
     return undefined;
@@ -68,7 +83,7 @@ export function useOptionalUser(): User | undefined {
   return data.user;
 }
 
-export function useUser(): User {
+export function useUser(): UserWithAvatar {
   const maybeUser = useOptionalUser();
   if (!maybeUser) {
     throw new Error(

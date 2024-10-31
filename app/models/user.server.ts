@@ -1,18 +1,21 @@
-import type { User } from "@prisma/client";
+import type { User, Avatar } from "@prisma/client";
 import argon2 from "@node-rs/argon2";
 import { prisma } from "~/.server/db";
 
-export type { User };
+type UserWithAvatar = User & { avatar: Avatar | null };
+export type { User, UserWithAvatar };
 
 export async function getUserById(id: User["id"]) {
   return prisma.user.findUnique({
     where: { id },
+    include: { avatar: true },
   });
 }
 
 export async function getUserByEmail(email: User["email"]) {
   return prisma.user.findUnique({
     where: { email },
+    include: { avatar: true },
   });
 }
 
