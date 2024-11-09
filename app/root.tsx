@@ -17,6 +17,7 @@ import { getUser } from "./session.server";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/Sidebar";
 import { AppSidebar } from "./components/AppSidebar";
 import "./tailwind.css";
+import { useOptionalUser } from "./lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -45,12 +46,14 @@ export const Head = createHead(() => (
 ));
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const user = useOptionalUser();
+
   return (
     <>
       <Head />
       <SidebarProvider>
-        <AppSidebar />
-        <main className="min-h-screen w-full max-w-[1024px] border">
+        {user && <AppSidebar />}
+        <main className="min-h-screen w-full border">
           {/* <SidebarTrigger /> */}
           {children}
         </main>
