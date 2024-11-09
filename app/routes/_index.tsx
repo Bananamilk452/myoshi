@@ -17,7 +17,7 @@ export default function Index() {
   const user = useOptionalUser();
 
   return (
-    <section>
+    <section className="flex h-full flex-col items-center justify-center gap-2">
       <MainLogo />
       <p>{JSON.stringify(user, null, 2)}</p>
       {user ? (

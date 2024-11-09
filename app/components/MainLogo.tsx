@@ -24,7 +24,7 @@ export function MainLogo() {
 
   return (
     <header className="flex min-w-[220px] flex-col">
-      <h1 className="font-pixel text-[48px] font-bold leading-[48px]">
+      <h1 className="font-pixel text-[56px] font-bold leading-[48px] text-black">
         {text[step]}
         {text.length - 1 == step && <span className="animate-onoff">_</span>}
       </h1>
