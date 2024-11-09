@@ -14,7 +14,10 @@ import type {
 import { createHead } from "remix-island";
 
 import { getUser } from "./session.server";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/Sidebar";
+import { AppSidebar } from "./components/AppSidebar";
 import "./tailwind.css";
+import { useOptionalUser } from "./lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,6 +32,10 @@ export const links: LinksFunction = () => [
     rel: "stylesheet",
     href: "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css",
   },
+  {
+    rel: "stylesheet",
+    href: "https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css",
+  },
 ];
 
 export const Head = createHead(() => (
@@ -39,10 +46,18 @@ export const Head = createHead(() => (
 ));
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const user = useOptionalUser();
+
   return (
     <>
       <Head />
-      {children}
+      <SidebarProvider>
+        {user && <AppSidebar />}
+        <main className="min-h-screen w-full border">
+          {/* <SidebarTrigger /> */}
+          {children}
+        </main>
+      </SidebarProvider>
       <ScrollRestoration />
       <Scripts />
     </>

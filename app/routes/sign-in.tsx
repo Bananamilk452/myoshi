@@ -2,8 +2,8 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, redirect, useActionData } from "@remix-run/react";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/Button";
+import { Input } from "~/components/ui/Input";
 import { verifyLogin } from "~/models/user.server";
 import { createUserSession, getUserId } from "~/session.server";
 
@@ -53,8 +53,11 @@ export default function Index() {
   const actionData = useActionData<typeof action>();
 
   return (
-    <main className="min-h-screen px-[30%]">
-      <Form method="POST" noValidate={true}>
+    <section className="flex h-full flex-col items-center justify-center">
+      <Form method="POST" noValidate={true} className="flex flex-col gap-2">
+        <h1 className="mb-2 font-pixel text-[48px] font-bold leading-[48px] text-black">
+          로그인
+        </h1>
         <Input
           name="email"
           type="email"
@@ -77,8 +80,10 @@ export default function Index() {
           <p className="text-red-500">{actionData.errors.password}</p>
         )}
 
-        <Button type="submit">로그인</Button>
+        <Button type="submit" className="mt-2">
+          로그인
+        </Button>
       </Form>
-    </main>
+    </section>
   );
 }

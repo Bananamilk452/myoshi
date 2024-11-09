@@ -80,5 +80,14 @@ module.exports = {
         node: true,
       },
     },
+
+    // shadcn
+    {
+      files: ["**/components/ui/*.tsx"],
+      rules: {
+        "react/prop-types": "off",
+        "react-refresh/only-export-components": "off",
+      },
+    },
   ],
 };
